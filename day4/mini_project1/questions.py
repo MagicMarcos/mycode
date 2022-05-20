@@ -121,6 +121,7 @@ def finalquestion(housechoices):
     
 
     if answer in housechoices:
+        #known bug: when user enters a wrong answer and is reprompted -> the next answer is not successfully returned...
         print("DEBUG_FINALQUESTION_ANSWER:" ,answer)
         return answer
     else:
