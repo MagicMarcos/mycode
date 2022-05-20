@@ -57,4 +57,5 @@ def main():
 
     print(houses)
 
-main()
+if __name__ == "__main__":
+    main()

@@ -22,6 +22,9 @@ def question1(houses):
         print("The sorting hat is angry that you have not chosen an appropriate answer! Please pick 1-4")
         question1(houses)
 
+if __name__ == "__question1__":
+    question1(houses)
+
 #Second question
 def question2(houses):
     #Print question
@@ -46,7 +49,10 @@ def question2(houses):
     else:
         print("You're upsetting the sorting hat dude! Pick a number 1-4")
         question2(houses)
-        
+
+if __name__ == "__question2__":
+    question2(houses)
+
 #Third Question        
 def question3(houses):
     #Print question for user
@@ -71,6 +77,9 @@ def question3(houses):
     else: 
         print("I don't even know what to tell you dude... It's 1,2,3 or 4. The hats losing his cool!")
         question3(houses)
+
+if __name__ == "__question3__":
+    question3(houses)
 
 #Fourth question
 def question4(houses):
@@ -98,6 +107,9 @@ def question4(houses):
         print("Bruh... 1...2...3...4... IT'S NOT HARD!")
         question4(houses)
 
+if __name__ == "__question4__":
+    question4(houses)
+
 #question to be asked if there are ties in the scoring system 
 def finalquestion(housechoices):
     housestring = " or ".join(housechoices)
@@ -109,7 +121,11 @@ def finalquestion(housechoices):
     
 
     if answer in housechoices:
+        print(answer)
         return answer
     else:
         print("\nThis is a rare opportunity! Don't play games! Your choices are {housestring}. Pick fast!!!")
         finalquestion(housechoices)
+
+if __name__ == "__finalquestion__":
+    finalquestion(housechoices)
