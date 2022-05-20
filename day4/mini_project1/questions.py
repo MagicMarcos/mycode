@@ -11,7 +11,6 @@ def question1(houses):
 
     if answer1 == "1":
             houses["Gryffindor"] += 1
-            print(houses["Gryffindor"])
     elif answer1 == "2":
             houses["Hufflepuff"] += 1
     elif answer1 == "3": 
@@ -19,7 +18,7 @@ def question1(houses):
     elif answer1 == "4":
             houses["Slytherin"] += 1
     else:
-        print("The sorting hat is angry that you have not chosen an appropriate answer! Please pick 1-4")
+        print("\nThe sorting hat is angry that you have not chosen an appropriate answer! Please pick 1-4")
         question1(houses)
 
 if __name__ == "__question1__":
@@ -47,7 +46,7 @@ def question2(houses):
     elif answer2 == "4":
         houses["Slytherin"] += 1
     else:
-        print("You're upsetting the sorting hat dude! Pick a number 1-4")
+        print("\nYou're upsetting the sorting hat dude! Pick a number 1-4")
         question2(houses)
 
 if __name__ == "__question2__":
@@ -75,7 +74,7 @@ def question3(houses):
     elif answer3 == "4":
         houses["Hufflepuff"] += 1
     else: 
-        print("I don't even know what to tell you dude... It's 1,2,3 or 4. The hats losing his cool!")
+        print("\nI don't even know what to tell you dude... It's 1,2,3 or 4. The hats losing his cool!")
         question3(houses)
 
 if __name__ == "__question3__":
@@ -104,7 +103,7 @@ def question4(houses):
     elif answer4 == "4":
         houses["Hufflepuff"] += 1
     else: 
-        print("Bruh... 1...2...3...4... IT'S NOT HARD!")
+        print("\nBruh... 1...2...3...4... IT'S NOT HARD!")
         question4(houses)
 
 if __name__ == "__question4__":
@@ -112,8 +111,9 @@ if __name__ == "__question4__":
 
 #question to be asked if there are ties in the scoring system 
 def finalquestion(housechoices):
+    
     housestring = " or ".join(housechoices)
-
+    
     #print(f"A rare opportunity appears before you! I seems the sorting hat can't quite place you... Out of the kindness of his heart and because he wants to get this ceremony over with, he will give you a choice. These are the houses he lays before you: {housestring}. Type in the name of the house you'd like to join: ")
 
     answer = input("\nYour answer: ")
@@ -121,10 +121,10 @@ def finalquestion(housechoices):
     
 
     if answer in housechoices:
-        print(answer)
+        print("DEBUG_FINALQUESTION_ANSWER:" ,answer)
         return answer
     else:
-        print("\nThis is a rare opportunity! Don't play games! Your choices are {housestring}. Pick fast!!!")
+        print(f"\nThis is a rare opportunity! Don't play games! Your choices are {housestring}. Pick fast!!!")
         finalquestion(housechoices)
 
 if __name__ == "__finalquestion__":
