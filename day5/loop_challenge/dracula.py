@@ -2,6 +2,7 @@
     #""" The challenge: loop thorough dracula.txt, write out every line with 'vampire    ' (case-insensitive) to a new file called vampytime.txt and count out how many o    f those lines exist."""
 
 vampirecount = 0 # counts how many lines contains vampire
+
 # use with along with open so we don't need to close our file at the end 
 with open("dracula.txt", "r") as draculafile: 
     vampirelower = "vampire" # lowercase vamp
