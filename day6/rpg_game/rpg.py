@@ -5,7 +5,7 @@
 def showInstructions():
   #print a main menu and the commands
   print('''
-RPG Game
+RPG Games
 ========
 Commands:
   go [direction]
