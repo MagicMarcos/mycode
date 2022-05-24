@@ -7,6 +7,8 @@ from rooms import rooms
 # Replace RPG starter project with this code when new instructions are live
 
 def showInstructions():
+  """Display intial gameplay instructions."""
+
   #print a main menu and the commands
   print('''
 It's a dark and stormy night. You're sitting in your room, trying to see some dank memes when the power goes out! Now you must navigate the dangers of this home and restart the generator in your backyard
@@ -19,9 +21,11 @@ Commands:
 showInstructions()
 
 def showStatus(currentRoom, inventory):
-  #print the player's current status
+  """Print player's current status, including room, room description, inventory, possible directions """
+  #print the player's current roon
   print('---------------------------')
   print('You are in the ' + currentRoom)
+  # print this rooms description
   print(rooms[currentRoom]['description'])
   #print the current inventory
   print('Inventory : ' + str(inventory))
@@ -33,7 +37,13 @@ def showStatus(currentRoom, inventory):
   print("---------------------------")
 
 def move_rooms(move, currentRoom, inventory):
-  #check that they are allowed wherever they want to go
+    """Function allows players to move from room to room: 
+          > checks for specific items if required to move into or out of rooms
+          > checks for rooms containing monsters and if required items are present
+          > alerts player if they cannot go a certain way or if required item is not present
+    """
+
+    #check that they are allowed wherever they want to go
     new_room = currentRoom
 
     if move[1] in rooms[currentRoom]['directions']:
@@ -69,7 +79,7 @@ def move_rooms(move, currentRoom, inventory):
     return new_room
 
 def get_item(move, currentRoom, inventory):
-  
+    """ Allows players to 'pick up' items. Additionally calls kitchen_check function for special cracker recipe """
     #if the room contains an item, and the item is the one they want to get
     if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
       #add the item to their inventory
@@ -88,6 +98,8 @@ def get_item(move, currentRoom, inventory):
       print('Can\'t get ' + move[1] + '!')
 
 def kitchen_check(currentRoom, inventory):
+  """ Determines whether player can create a 'cracker'. Checks current room and if the required items are in the inventory"""
+
     # conditional for special actions in kitchen 
   if currentRoom == "Kitchen":
     cracker_recipe = ['water', 'salt', 'flour', 'oven']
@@ -96,15 +108,18 @@ def kitchen_check(currentRoom, inventory):
       print("---------------------------")
       print('You have all the items to make a cracker. Let\'s get cracking')
       print("---------------------------")
+      # loop over ingredients in recipe and removes them from inventory then add cracker to inventory
       for ingredient in cracker_recipe:
         if ingredient in inventory:
           inventory.remove(ingredient)
       inventory.append('cracker')
 
 def is_game_over_check(currentRoom, inventory):
+  """ Conditionally checks for win/lose conditions """
+
   is_game_over = False
 
-  ## Define how a player can win
+  ## Define how a player can win (by exiting to the backyard)
   if currentRoom == 'Backyard' and 'backyard key' in inventory:
     print('You made it to the backyard!')
     is_game_over = True
@@ -129,7 +144,7 @@ def main():
 
   #loop forever
   while True:
-
+    # show game status at each iteration
     showStatus(currentRoom, inventory)
 
     #get the player's next 'move'
