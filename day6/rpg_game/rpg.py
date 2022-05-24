@@ -19,7 +19,7 @@ def showStatus():
   print(rooms[currentRoom]['description'])
   #print the current inventory
   print('Inventory : ' + str(inventory))
-
+  #print list of possible directions 
   print(f"Possible directions: {list(rooms[currentRoom]['directions'].keys())}")
   #print an item if there is one
   if "item" in rooms[currentRoom]:
@@ -169,16 +169,20 @@ while True:
     #check that they are allowed wherever they want to go
   
     if move[1] in rooms[currentRoom]['directions']:
+      # represents the next room the player would move into
       interim_room = rooms[currentRoom]['directions'][move[1]]
-      room_item = rooms[interim_room].get('required item') 
-
+      room_item = rooms[interim_room].get('required item') #required item for entering next room
+      
+      # checks if player has required item in inventory and if room requires an item
       if room_item != None and room_item not in inventory :
         print("You can't go that way without the proper items.") 
-
+      
+      # conditional for first monster room
       elif 'Mushu the Great Dragon'  == rooms[interim_room].get('monster') and 'worm' in inventory:
         print(f"You've quenched {rooms[interim_room]['monster']} hunger")
         currentRoom = rooms[currentRoom]['directions'][move[1]]
-
+      
+      # conditional for final boss
       elif 'Poly the Bird' == rooms[interim_room].get('monster') and 'cracker' in inventory:
         print(f"The great beast {rooms[interim_room]['monster']} is satisfied... for now. Leave quickly!")
         currentRoom = rooms[currentRoom]['directions'][move[1]]
@@ -186,16 +190,19 @@ while True:
       else:
         #set the current room to the new room
         currentRoom = rooms[currentRoom]['directions'][move[1]]
+    
     #there is no door (link) to the new room
     else:
         print('You can\'t go that way!')
+
+  # conditional for special actions in kitchen 
   if currentRoom == "Kitchen":
+    # checks if all required items to make a cracker are in the inventory and removes them
     if 'water' in inventory and 'salt' in inventory and 'flour' in inventory and 'oven' in inventory:
       print('You have all the items to make a cracker. Let\'s get cracking')
-      inventory.remove('water')
-      inventory.remove('salt')
-      inventory.remove('flour')
-      inventory.remove('oven')
+      for ingredient in inventory:
+        if ingredient == 'water' or ingredient == ' salt' or ingredient == 'flour' or ingredient == ' oven' :
+          inventory.remove(ingredient)
       inventory.append('cracker')
   #if they type 'get' first
   if move[0] == 'get' :
