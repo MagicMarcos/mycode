@@ -10,6 +10,7 @@ It's a dark and stormy night. You're sitting in your room, trying to see some da
 Commands:
   go [direction]
   get [item]
+  "I'm scared of the dark!" press q
 ''')
 
 def showStatus():
@@ -27,7 +28,7 @@ def showStatus():
   print("---------------------------")
 
 #an inventory, which is initially empty
-inventory = ['water', 'flour', 'salt', 'cracker', 'oven']
+inventory = []
 
 #a dictionary linking a room to other rooms
 ## A dictionary linking a room to other rooms
@@ -55,17 +56,21 @@ rooms = {
               'directions' : {
                 'north' : 'Main Hall', 
               },  
-                'item' : 'Master Bedroom Key', # opens master bedroom
+                'item' : 'master bedroom key', # opens master bedroom
                 'monster' : 'Mushu the Great Dragon', # needs worm from front yard
                 'description' : 'A strange skunky smell is coming from this room... '
             },
             'Small Bedroom' : {
-              'north' : 'Main Hall',
-              'item' : 'Backyard Key', # necessary to win the game and exit
+              'directions' : {
+                'north' : 'Main Hall',
+              },
+              'item' : 'backyard key', # necessary to win the game and exit
               'description' : 'A child\'s bedroom. Toys are scattered everywhere. Someone\'s going to get grounded...'
             }, 
             'Bathroom' : {
-              'north' : 'Main Hall', 
+              'directions' : {
+                'north' : 'Main Hall', 
+              },
               'item' : 'water', # cracker ingredient
               'description' : 'You hear a leaky water faucet. When\'s that landlord gonna get his sh!t together?!'
             }, 
@@ -97,7 +102,7 @@ rooms = {
                 'east' : 'Entrance', 
               },
               'item' : 'salt', # cracker ingredient
-              'required item' : 'Master Bedroom Key',
+              'required item' : 'master bedroom key',
               'description' : 'This room feels cramped with an oversized king bed in it.'
             },
             'Living Room' : {
@@ -132,7 +137,10 @@ rooms = {
               'description' : 'Abandon all hope ye who enter here. You feel the embodiment of evil eminating from this room. From the darkness comes a loud screech and you hear \'Poly wants a cracker\''
             }, 
             'Backyard' : {
-              'required item' : 'Backyard Key', 
+              'directions' : {
+                'none' : None
+              },
+              'required item' : 'backyard key', 
               'description' : 'The promised land! FINALLY, I CAN GO BACK TO LOOKING AT DANK MEMES!'
             }
          }
@@ -197,13 +205,18 @@ while True:
 
   # conditional for special actions in kitchen 
   if currentRoom == "Kitchen":
+    cracker_recipe = ['water', 'salt', 'flour', 'oven']
     # checks if all required items to make a cracker are in the inventory and removes them
     if 'water' in inventory and 'salt' in inventory and 'flour' in inventory and 'oven' in inventory:
       print('You have all the items to make a cracker. Let\'s get cracking')
-      for ingredient in inventory:
-        if ingredient == 'water' or ingredient == ' salt' or ingredient == 'flour' or ingredient == ' oven' :
-          inventory.remove(ingredient)
+     
+      inventory.remove('water')
+      inventory.remove('salt')
+      inventory.remove('flour')
+      inventory.remove('oven')
+
       inventory.append('cracker')
+
   #if they type 'get' first
   if move[0] == 'get' :
     #if the room contains an item, and the item is the one they want to get
