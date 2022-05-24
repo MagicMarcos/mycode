@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""Dictionary containing all rooms in the house. To be imported by rpg.py """
+
 rooms = {
             'Your Bedroom' : {
                   'directions' : {
