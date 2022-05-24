@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+#a dictionary linking a room to other rooms
+## A dictionary linking a room to other rooms
+from rooms import rooms
+
 # Replace RPG starter project with this code when new instructions are live
 
 def showInstructions():
@@ -12,8 +16,9 @@ Commands:
   get [item]
   "I'm scared of the dark!" press q
 ''')
+showInstructions()
 
-def showStatus():
+def showStatus(currentRoom, inventory):
   #print the player's current status
   print('---------------------------')
   print('You are in the ' + currentRoom)
@@ -27,155 +32,10 @@ def showStatus():
     print('You see a ' + rooms[currentRoom]['item'])
   print("---------------------------")
 
-#an inventory, which is initially empty
-inventory = []
+def move_rooms(move, currentRoom, inventory):
+  #check that they are allowed wherever they want to go
+    new_room = currentRoom
 
-#a dictionary linking a room to other rooms
-## A dictionary linking a room to other rooms
-rooms = {
-
-            'Your Bedroom' : {
-                  'directions' : {
-                    'south' : 'Main Hall',
-                  },
-                  'item'  : 'flashlight', # needed to enter main hall
-                  'description' : 'It\'s your bedroom, although its dark you know the layout. As usual your stupid cat darts off suddenly knocking everything off your desk.'
-                },
-            'Main Hall' : {
-                'directions' : {
-                  'north' : 'Your Bedroom',
-                  'south east' : 'Bedroom',
-                  'south' : 'Small Bedroom',
-                  'south west': 'Bathroom',
-                  'west' : 'Atrium',
-                },              
-                'required item' : 'flashlight', 
-                'description' : 'The largest hall in the house, you have many options on where to go.'
-              },
-            'Bedroom' : {
-              'directions' : {
-                'north' : 'Main Hall', 
-              },  
-                'item' : 'master bedroom key', # opens master bedroom
-                'monster' : 'Mushu the Great Dragon', # needs worm from front yard
-                'description' : 'A strange skunky smell is coming from this room... '
-            },
-            'Small Bedroom' : {
-              'directions' : {
-                'north' : 'Main Hall',
-              },
-              'item' : 'backyard key', # necessary to win the game and exit
-              'description' : 'A child\'s bedroom. Toys are scattered everywhere. Someone\'s going to get grounded...'
-            }, 
-            'Bathroom' : {
-              'directions' : {
-                'north' : 'Main Hall', 
-              },
-              'item' : 'water', # cracker ingredient
-              'description' : 'You hear a leaky water faucet. When\'s that landlord gonna get his sh!t together?!'
-            }, 
-            'Atrium' : {
-              'directions' : {
-                'north' : 'Entrance',
-                'east' : 'Main Hall', 
-                'west' : 'Living Room',
-              },            
-              'description' : 'Relatively small atrium, you accidentally step on a cat. Whoops!'
-            },
-            'Entrance' : {
-              'directions' : {
-                'north' : 'Front Yard',
-                'south' : 'Atrium', 
-                'west' : 'Master Bedroom',
-              },
-              'description' : 'A small hallway leading to the front door.'
-            }, 
-            'Front Yard' : {
-              'directions' : {
-                'south' : 'Entrance', 
-              },
-              'item' : 'worm', # worm to feed mushu
-              'description' : 'Spacious front yard. A giant chicken statue sits on a tree stump.'
-            }, 
-            'Master Bedroom' : {
-              'directions' : {
-                'east' : 'Entrance', 
-              },
-              'item' : 'salt', # cracker ingredient
-              'required item' : 'master bedroom key',
-              'description' : 'This room feels cramped with an oversized king bed in it.'
-            },
-            'Living Room' : {
-              'directions' : {
-                'east' : 'Atrium',
-                'south west' : 'Kitchen',
-              },
-              'description' : 'Literally never used, although it\'s great spot for catching your toe on some furniture.'
-            },
-            'Kitchen' : {
-              'directions' : {
-                'north' : 'Living Room',
-                'west' : 'Pantry',
-                'south west' : 'Bird Room'
-              }, 
-              'item' :  'oven', # needs all 3 cracker ingredient to make cracker
-              'description' : 'By far the nicest room in the house, recently remodeled. The smell of something yummy fills the air.'
-            },
-            'Pantry' : {
-              'directions' : {
-                'east' : 'Kitchen',
-              },
-              'item' : 'flour', # cracker ingredient
-              'description' : 'Technically a second atrium, convered to a pantry. What sort of treasures await you?'
-            }, 
-            'Bird Room' : {
-              'directions' : {
-                'east' : 'Kitchen',
-                'south west' : 'Backyard',
-              },
-              'monster' : 'Poly the Bird', # needs cracker
-              'description' : 'Abandon all hope ye who enter here. You feel the embodiment of evil eminating from this room. From the darkness comes a loud screech and you hear \'Poly wants a cracker\''
-            }, 
-            'Backyard' : {
-              'directions' : {
-                'none' : None
-              },
-              'required item' : 'backyard key', 
-              'description' : 'The promised land! FINALLY, I CAN GO BACK TO LOOKING AT DANK MEMES!'
-            }
-         }
-
-#start the player in the Hall
-currentRoom = 'Your Bedroom'
-
-showInstructions()
-
-#loop forever
-while True:
-
-  showStatus()
-
-  #get the player's next 'move'
-  #.split() breaks it up into an list array
-  #eg typing 'go east' would give the list:
-  #['go','east']
-  move = ''
-  while move == '':
-    move = input('>')
-
-  # split allows an items to have a space on them
-  # get golden key is returned ["get", "golden key"]          
-  move = move.lower().split(" ", 1)
-
-  # quit game
-  if move[0] == 'q' :
-    print('COWARD!')
-    break
-
-  #if they type 'go' first
-  if move[0] == 'go':
-    #check that they are allowed wherever they want to go
-  
     if move[1] in rooms[currentRoom]['directions']:
       # represents the next room the player would move into
       interim_room = rooms[currentRoom]['directions'][move[1]]
@@ -187,38 +47,29 @@ while True:
       
       # conditional for first monster room
       elif 'Mushu the Great Dragon'  == rooms[interim_room].get('monster') and 'worm' in inventory:
+        print("---------------------------")
         print(f"You've quenched {rooms[interim_room]['monster']} hunger")
-        currentRoom = rooms[currentRoom]['directions'][move[1]]
+        new_room = rooms[currentRoom]['directions'][move[1]]
       
       # conditional for final boss
       elif 'Poly the Bird' == rooms[interim_room].get('monster') and 'cracker' in inventory:
+        print("---------------------------")
         print(f"The great beast {rooms[interim_room]['monster']} is satisfied... for now. Leave quickly!")
-        currentRoom = rooms[currentRoom]['directions'][move[1]]
+        new_room = rooms[currentRoom]['directions'][move[1]]
 
       else:
         #set the current room to the new room
-        currentRoom = rooms[currentRoom]['directions'][move[1]]
-    
+        new_room = rooms[currentRoom]['directions'][move[1]]
+        kitchen_check(currentRoom, inventory)
     #there is no door (link) to the new room
     else:
-        print('You can\'t go that way!')
+      print("---------------------------")
+      print('You can\'t go that way!')
 
-  # conditional for special actions in kitchen 
-  if currentRoom == "Kitchen":
-    cracker_recipe = ['water', 'salt', 'flour', 'oven']
-    # checks if all required items to make a cracker are in the inventory and removes them
-    if 'water' in inventory and 'salt' in inventory and 'flour' in inventory and 'oven' in inventory:
-      print('You have all the items to make a cracker. Let\'s get cracking')
-     
-      inventory.remove('water')
-      inventory.remove('salt')
-      inventory.remove('flour')
-      inventory.remove('oven')
+    return new_room
 
-      inventory.append('cracker')
-
-  #if they type 'get' first
-  if move[0] == 'get' :
+def get_item(move, currentRoom, inventory):
+  
     #if the room contains an item, and the item is the one they want to get
     if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
       #add the item to their inventory
@@ -227,20 +78,85 @@ while True:
       print(move[1] + ' got!')
       #delete the item from the room
       del rooms[currentRoom]['item']
+
+      # check if player is in kitchen to make a cracker
+      kitchen_check(currentRoom, inventory)
+
     #otherwise, if the item isn't there to get
     else:
       #tell them they can't get it
       print('Can\'t get ' + move[1] + '!')
-      
+
+def kitchen_check(currentRoom, inventory):
+    # conditional for special actions in kitchen 
+  if currentRoom == "Kitchen":
+    cracker_recipe = ['water', 'salt', 'flour', 'oven']
+    # checks if all required items to make a cracker are in the inventory and removes them
+    if 'water' in inventory and 'salt' in inventory and 'flour' in inventory and 'oven' in inventory:
+      print("---------------------------")
+      print('You have all the items to make a cracker. Let\'s get cracking')
+      print("---------------------------")
+      for ingredient in cracker_recipe:
+        if ingredient in inventory:
+          inventory.remove(ingredient)
+      inventory.append('cracker')
+
+def is_game_over_check(currentRoom, inventory):
+  is_game_over = False
+
   ## Define how a player can win
-  if currentRoom == 'Backyard' and 'key' in inventory:
+  if currentRoom == 'Backyard' and 'backyard key' in inventory:
     print('You made it to the backyard!')
-    break
+    is_game_over = True
 
   ## If a player enters a room with a monster
   elif 'Poly the Bird' == rooms[currentRoom].get('monster') and 'cracker' not in inventory:
     print(f"Like thousands before you... you have fallen prey to {rooms[currentRoom]['monster']}'s horrors. GAME OVER!")
-    break
+    is_game_over = True
+
   elif 'Mushu the Great Dragon' == rooms[currentRoom].get('monster') and 'worm' not in inventory:
     print(f"{rooms[currentRoom]['monster']} has got you... FREAKING LOSEEERRR!")
-    break
+    is_game_over = True
+  
+  return is_game_over
+
+def main():
+  #an inventory, which is initially empty
+  inventory = ['water', 'flour', 'salt', 'flashlight', 'worm']
+
+  #start the player in Your Bedroom
+  currentRoom = 'Your Bedroom'
+
+  #loop forever
+  while True:
+
+    showStatus(currentRoom, inventory)
+
+    #get the player's next 'move'
+    move = ''
+    while move == '':
+      move = input('> ')
+
+    # split allows an item to have a space on them
+    # get golden key is returned ["get", "golden key"]          
+    move = move.lower().split(" ", 1)
+
+    # quit game
+    if move[0] == 'q' :
+      print('COWARD!')
+      break
+
+    #if they type 'go' first
+    if move[0] == 'go':
+      currentRoom = move_rooms(move, currentRoom, inventory)
+
+    #if they type 'get' first
+    if move[0] == 'get' :
+      get_item(move, currentRoom, inventory)
+    
+    # check if game is over -> if true break from loop
+    if is_game_over_check(currentRoom, inventory):
+      break
+
+if __name__ == '__main__':
+  main()
