@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello {{result[0]}}</h1>
+    <!-- result 1 == whether its correct or wrong -->
+    {%if result[1] == "correct" %}
+    <!-- result 2 == users answer -->
+    <p>You answered {{result[2]}}. Which is...</p>
+    <h3>THE CORRECT ANSWER GREAT JOB!!!!</h3>
+    <a href="/">Play again</a>
+
+    {%else%}
+    <p>You answered {{result[2]}}. That's wrong.</p>
+    <h3>You're and idiot.</h3>
+    <a href="/"> Try again, dummy</a>
+    {%endif%}
+
+    
+</body>
+</html>
