@@ -60,12 +60,9 @@ def main():
        
         #invoke final question, giving user the choice of which house they want to be in and assign to house
         house = finalquestion(housechoices)
-        print("DEBUG_HOUSE: ", house)
     
     #print the users result
     print(f"\n The sorting hat has decided... You belong to {house}!!!!")
-
-    print("\nDEBUG_HOUSES_TOTAL: ", houses)
 
 if __name__ == "__main__":
     main()

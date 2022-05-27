@@ -111,22 +111,23 @@ if __name__ == "__question4__":
 
 #question to be asked if there are ties in the scoring system 
 def finalquestion(housechoices):
-    
+    result = ""
     housestring = " or ".join(housechoices)
-    
-    #print(f"A rare opportunity appears before you! I seems the sorting hat can't quite place you... Out of the kindness of his heart and because he wants to get this ceremony over with, he will give you a choice. These are the houses he lays before you: {housestring}. Type in the name of the house you'd like to join: ")
 
-    answer = input("\nYour answer: ")
-    answer = answer.lower().capitalize()
-    
+    #initiate infinite loop
+    while True:
+        # prompt user for answer
+        answer = input("\nYour answer: ")
+        answer = answer.lower().capitalize() #normalize
 
-    if answer in housechoices:
-        #known bug: when user enters a wrong answer and is reprompted -> the next answer is not successfully returned...
-        print("DEBUG_FINALQUESTION_ANSWER:" ,answer)
-        return answer
-    else:
-        print(f"\nThis is a rare opportunity! Don't play games! Your choices are {housestring}. Pick fast!!!")
-        finalquestion(housechoices)
+        # validate users answer, assign house and break
+        if answer in housechoices: 
+            result = answer
+            break
+        else:
+            print(f"\nThis is a rare opportunity! Don't play games! Your choices are {housestring}. Pick fast!!!")
+
+    return result
 
 if __name__ == "__finalquestion__":
     finalquestion(housechoices)
