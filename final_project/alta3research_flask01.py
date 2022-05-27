@@ -8,7 +8,6 @@ from flask import render_template
 from flask import jsonify
 from random import randint
 from alta3research_requests02 import json_req
-from questions import trivia_questions # import questions list
 import json
 import yaml
 
